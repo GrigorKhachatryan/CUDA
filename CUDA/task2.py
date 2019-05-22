@@ -8,7 +8,7 @@ def matmul(A, B, C):
     sB = cuda.shared.array(shape=(TPB, TPB), dtype=float32)
 
     x, y = cuda.grid(2)
-    
+
     tx = cuda.threadIdx.x
     ty = cuda.threadIdx.y
     bpg = cuda.gridDim.x
