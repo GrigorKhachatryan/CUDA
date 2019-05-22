@@ -21,20 +21,17 @@ int main(int argc, char *argv[])
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-    //scatter rows of first matrix to different processes
     MPI_Scatter(a, N*N/size, MPI_INT, aa, N*N/size, MPI_INT,0,MPI_COMM_WORLD);
 
-    //broadcast second matrix to all processes
     MPI_Bcast(b, N*N, MPI_INT, 0, MPI_COMM_WORLD);
 
     MPI_Barrier(MPI_COMM_WORLD);
 
-          //perform vector multiplication by all processes
           for (i = 0; i < N; i++)
             {
                     for (j = 0; j < N; j++)
                     {
-                            sum = sum + aa[j] * b[j][i];  //MISTAKE_WAS_HERE
+                            sum = sum + aa[j] * b[j][i];
                     }
                     cc[i] = sum;
                     sum = 0;
@@ -44,7 +41,7 @@ int main(int argc, char *argv[])
 
     MPI_Barrier(MPI_COMM_WORLD);
     MPI_Finalize();
-    if (rank == 0)                         //I_ADDED_THIS
+    if (rank == 0)                         
         print_results("C = ", c);
 }
 
